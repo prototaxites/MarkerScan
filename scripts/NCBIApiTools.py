@@ -116,4 +116,5 @@ class NcbiApi:
             return outfile
 
         except requests.HTTPError as e:
-            print(f"Failed to download genomes: {e}")
+            print(f"Failed to download genomes for accessions: {accessions}")
+            sys.exit(f"Reason: {e}")
