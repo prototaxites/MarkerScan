@@ -46,19 +46,20 @@ class NcbiApi:
         arg_filter_refs_only = f"?filters_reference_only={filters_reference_only}"
         arg_page_size = f"&page_size={page_size}"
         r = self.get_request(query + arg_filter_refs_only + arg_page_size)
+        r_res = r.json()
 
         assemblies = []
 
-        if r.get("reports"):
-            assemblies = [] + r.get("reports")
+        if r_res.get("reports"):
+            assemblies = [] + r_res.get("reports")
 
-        while r.get("next_page_token", "") != "":
-            page_token_arg = f"&page_token={r.get('next_page_token')}"
+        while r_res.get("next_page_token", "") != "":
+            page_token_arg = f"&page_token={r_res.get('next_page_token')}"
             r = self.get_request(
                 query + arg_filter_refs_only + arg_page_size + page_token_arg
             )
-            if r.get("reports", None):
-                assemblies = assemblies + r.get("reports")
+            if r_res.get("reports", None):
+                assemblies = assemblies + r_res.get("reports")
 
         return assemblies
 
