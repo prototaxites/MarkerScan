@@ -149,7 +149,7 @@ if args.tax in namestax:
     SpeciesDictionary = {}
     for assembly in assemblies:
         acc = assembly.get("accession")
-        date = assembly.get("release_date")
+        date = assembly.get("assembly_info", {}).get("release_date")
         sciname_orig = assembly.get("organism").get("organism_name")
         strainname = (
             assembly.get("organism", {})
