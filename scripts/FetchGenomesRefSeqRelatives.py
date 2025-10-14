@@ -196,14 +196,14 @@ if args.tax in namestax:
     print(f"Download a package for {accs}.")
     print("Begin download of genome data package ...")
     for t in range(0, len(accs), 3):
-        zipfile_name_part = Path(str(args.dir)) / f"RefSeq.relatives.part{str(t)}.zip"
+        zipfile_name_part = Path(str(args.dir)) / f"relatives.RefSeq.part{str(t)}.zip"
         accshort = accs[t : t + 3]
         api_response = api_instance.download_genomes(
             accshort,
             outfile=zipfile_name_part,
         )
         print("Download complete part " + str(t))
-        cmd = "unzip -d " + str(zipfile_name_part)[-4] + " " + str(zipfile_name_part)
+        cmd = f"unzip -d {zipfile_name_part.stem} {zipfile_name_part}"
         os.system(cmd)
 
     cmd = "mkdir " + str(args.dir) + "/relatives.Refseq"
@@ -236,14 +236,7 @@ if args.tax in namestax:
         + "/relatives.Refseq/ncbi_dataset/data/dataset_catalog.json"
     )
     os.system(cmd)
-    cmd = (
-        "rm -r "
-        + str(args.dir)
-        + "/"
-        + "/RefSeq.relatives.part*.zip "
-        + str(args.dir)
-        + "/relatives.RefSeq.part*"
-    )
+    cmd = "rm -r " + str(args.dir) + "/" + "relatives.RefSeq.part*"
     os.system(cmd)
     cmd = (
         "cat "

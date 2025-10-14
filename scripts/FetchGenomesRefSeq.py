@@ -112,15 +112,13 @@ if len(accs) > 0:
     zipfile_name = str(args.dir) + "/" + "/RefSeq." + str(taxname_orig) + ".zip"
     for t in range(0, len(accs), 100):
         accshort = accs[t : t + 100]
-        zipfile_name_part = (
-            Path(args.dir) / f"/RefSeq.{str(taxname_orig)}.part{str(t)}.zip"
-        )
+        zipfile_name_part = Path(args.dir) / f"/{taxname_orig}.RefSeq.part{str(t)}.zip"
         api_response = api_instance.download_genomes(
             accshort,
             outfile=zipfile_name_part,
         )
         print("Download complete part " + str(t))
-        cmd = "unzip -d " + str(zipfile_name_part)[-4] + " " + str(zipfile_name_part)
+        cmd = f"unzip -d {zipfile_name_part.stem} {zipfile_name_part}"
         os.system(cmd)
 
     cmd = "mkdir " + str(args.dir) + "/" + str(taxname_orig) + ".Refseq"
@@ -167,18 +165,7 @@ if len(accs) > 0:
         + ".Refseq/ncbi_dataset/data/dataset_catalog.json"
     )
     os.system(cmd)
-    cmd = (
-        "rm -r "
-        + str(args.dir)
-        + "/"
-        + "/RefSeq."
-        + str(taxname_orig)
-        + ".part*.zip "
-        + str(args.dir)
-        + "/"
-        + str(taxname_orig)
-        + ".RefSeq.part*"
-    )
+    cmd = "rm -r " + str(args.dir) + f"/{str(taxname_orig)}.RefSeq.part*"
     os.system(cmd)
 else:
     print("No genomes available")
