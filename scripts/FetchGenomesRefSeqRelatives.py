@@ -129,7 +129,9 @@ if args.tax in namestax:
                 # print(assembly.org.sci_name)
                 sciname_orig = assembly.get("organism").get("organism_name")
                 strainname = (
-                    assembly.get("organism").get("infraspecific_names").get("strain")
+                    assembly.get("organism", {})
+                    .get("infraspecific_names", {})
+                    .get("strain", None)
                 )
                 if strainname:
                     if strainname in sciname_orig and "sp" not in sciname_orig:

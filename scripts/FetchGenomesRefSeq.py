@@ -59,7 +59,9 @@ for assembly in assemblies:
     acc = assembly.get("accession")
     date = assembly.get("release_date")
     sciname_orig = assembly.get("organism").get("organism_name")
-    strainname = assembly.get("organism").get("infraspecific_names").get("strain")
+    strainname = (
+        assembly.get("organism", {}).get("infraspecific_names", {}).get("strain", None)
+    )
     contiguity = int(assembly.get("assembly_stats").get("contig_n50"))
     size = int(assembly.get("assembly_stats").get("total_sequence_length"))
 
